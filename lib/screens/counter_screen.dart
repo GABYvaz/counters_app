@@ -13,7 +13,18 @@ class _CounterScreenState extends State<CounterScreen> {
     color: Color.fromARGB(255, 134, 55, 81),
     fontWeight: FontWeight.bold, 
       );
-  
+  void incrementar(){
+    contador++;
+    setState(() {});
+  }
+  void decrementar(){
+    contador--;
+    setState(() {});
+  }
+  void reiniciar(){
+    contador=0;
+    setState(() {});
+  }
   @override
   Widget build(BuildContext context) {
      return Scaffold(
@@ -40,29 +51,50 @@ class _CounterScreenState extends State<CounterScreen> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-     floatingActionButton: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-       children: [
-         FloatingActionButton( //Widget y propiedad del boton
-          onPressed: null,
-            backgroundColor: const Color.fromARGB(255, 237, 152, 185),
-            foregroundColor: const Color.fromARGB(255, 250, 15, 78),
-            child: const Icon(Icons.exposure_minus_1),
-            ),
-            FloatingActionButton( //Widget y propiedad del boton
-          onPressed: null,
-            backgroundColor: const Color.fromARGB(255, 237, 152, 185),
-            foregroundColor: const Color.fromARGB(255, 250, 15, 78),
-            child: const Icon(Icons.restart_alt),
-            ),
-            FloatingActionButton( //Widget y propiedad del boton
-          onPressed: null,
-            backgroundColor: const Color.fromARGB(255, 237, 152, 185),
-            foregroundColor: const Color.fromARGB(255, 250, 15, 78),
-            child: const Icon(Icons.exposure_plus_1),
-            ),
-       ],
-     ),
+     floatingActionButton: CustomFloatingActionButton(
+      decrease: decrementar, 
+     increase: incrementar, 
+     reset: reiniciar,),
       );
     } 
-  }   
+  }
+
+class CustomFloatingActionButton extends StatelessWidget {
+  final Function increase;
+  final Function decrease;
+  final Function reset;
+  
+  const CustomFloatingActionButton({
+    super.key, 
+    required this.increase, 
+    required this.decrease, 
+    required this.reset,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        FloatingActionButton( //Widget y propiedad del boton
+         onPressed:() => decrease(),
+           backgroundColor: const Color.fromARGB(255, 237, 152, 185),
+           foregroundColor: const Color.fromARGB(255, 250, 15, 78),
+           child: const Icon(Icons.exposure_minus_1),
+           ),
+           FloatingActionButton( //Widget y propiedad del boton
+         onPressed: () => reset(),
+           backgroundColor: const Color.fromARGB(255, 237, 152, 185),
+           foregroundColor: const Color.fromARGB(255, 250, 15, 78),
+           child: const Icon(Icons.restart_alt),
+           ),
+           FloatingActionButton( //Widget y propiedad del boton
+         onPressed:() => increase(),
+           backgroundColor: const Color.fromARGB(255, 237, 152, 185),
+           foregroundColor: const Color.fromARGB(255, 250, 15, 78),
+           child: const Icon(Icons.exposure_plus_1),
+           ),
+      ],
+    );
+  }
+}   
